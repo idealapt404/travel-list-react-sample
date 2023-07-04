@@ -12,6 +12,7 @@ export interface FormProps {
 
 export interface ListProps {
   items: ItemProps[];
+  onDeleteItem: (id: number) => void;
 }
 
 function App() {
@@ -21,11 +22,15 @@ function App() {
     setItems((items) => [...items, item]);
   }
 
+  const onDeleteItem = (id: number) => {
+    setItems(items => items.filter(item => item.id !== id));
+  }
+
   return (
     <div className="app">
       <Logo />
       <Form onAddItems={onAddItems} />
-      <PackingList items={items} />
+      <PackingList items={items} onDeleteItem={onDeleteItem}/>
       <Stats />
     </div>
   );

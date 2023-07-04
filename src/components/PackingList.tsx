@@ -2,17 +2,21 @@ import React from 'react';
 import { ItemProps } from './items';
 import { ListProps } from './App';
 
-const PackingList: React.FC<ListProps> = ({ items }) => {
+export interface ItemViewProps {
+  item: ItemProps;
+  onDeleteItem: (id: number) => void;
+}
+
+const PackingList: React.FC<ListProps> = ({ items, onDeleteItem }) => {
   return (
     <ul className="list">
       {
         items.map((item) => (
           <Item
             key={item.id}
-            id={item.id}
-            description={item.description}
-            quantity={item.quantity}
-            packed={item.packed} />
+            item={item}
+            onDeleteItem={onDeleteItem}
+          />
           )
         )
       }
@@ -20,13 +24,14 @@ const PackingList: React.FC<ListProps> = ({ items }) => {
   )
 }
 
-const Item: React.FC<ItemProps> = ({id, description, quantity, packed}) => {
+const Item: React.FC<ItemViewProps> =
+  ({item, onDeleteItem}) => {
   return (
     <li>
-      <span style={packed ? { textDecoration: "line-through" } : {}}>
-        {quantity} {description}
+      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
+        {item.quantity} {item.description}
       </span>
-      <button>❌</button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
   )
 }
