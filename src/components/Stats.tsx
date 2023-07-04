@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { StatsProps } from './App';
 
 interface StatViewProps {
-  numItems: number;
-  numPacked: number;
-  percentage: number;
+  children: ReactNode;
 }
 
 const Stats: React.FC<StatsProps> = ({ items }) => {
@@ -14,34 +12,24 @@ const Stats: React.FC<StatsProps> = ({ items }) => {
 
   return (
     <footer className="stats">
+      <em>
         {percentage === 0
-        ? <EmptyStat />
-        : percentage === 100
-          ? <FullStat />
-          : <Stat numItems={numItems} numPacked={numPacked} percentage={percentage} />
+          ? <Stat>Start adding some items to your packing list 🚀</Stat>
+          : percentage === 100
+            ? <Stat>You got everything! Ready to go ✈️</Stat>
+            : <Stat>
+                💼 You have {numItems} items on your list,
+                and you already packed {numPacked} ({percentage}%)
+              </Stat>
         }
+      </em>
     </footer>
   )
 }
 
-const EmptyStat: React.FC = () => {
+const Stat: React.FC<StatViewProps> = ({children}) => {
   return (
-    <em>Start adding some items to your packing list 🚀</em>
-  )
-}
-
-const FullStat: React.FC = () => {
-  return (
-    <em>"You got everything! Ready to go ✈️"</em>
-  )
-}
-
-const Stat: React.FC<StatViewProps> = ({numItems, numPacked, percentage}) => {
-  return (
-    <em>
-      💼 You have {numItems} items on your list,
-      and you already packed {numPacked} ({percentage}%)
-    </em>
+    <em>{children}</em>
   )
 }
 
