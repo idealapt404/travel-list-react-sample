@@ -5,7 +5,6 @@ import PackingList from './PackingList';
 import Stats from './Stats';
 import { initialItems, ItemProps } from './items';
 
-
 export interface FormProps {
   onAddItems: (item: ItemProps) => void;
 }
@@ -14,6 +13,10 @@ export interface ListProps {
   items: ItemProps[];
   onDeleteItem: (id: number) => void;
   onToggleItem: (id: number) => void;
+}
+
+export interface StatsProps {
+  items: ItemProps[];
 }
 
 function App() {
