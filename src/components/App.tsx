@@ -13,6 +13,7 @@ export interface FormProps {
 export interface ListProps {
   items: ItemProps[];
   onDeleteItem: (id: number) => void;
+  onToggleItem: (id: number) => void;
 }
 
 function App() {
@@ -26,12 +27,17 @@ function App() {
     setItems(items => items.filter(item => item.id !== id));
   }
 
+  const onToggleItem = (id: number) => {
+    setItems(items => items.map((item) =>
+      item.id === id ? {...item, packed: !item.packed } : item))
+  }
+
   return (
     <div className="app">
       <Logo />
       <Form onAddItems={onAddItems} />
-      <PackingList items={items} onDeleteItem={onDeleteItem}/>
-      <Stats />
+      <PackingList items={items} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} />
+      <Stats items={items} />
     </div>
   );
 }

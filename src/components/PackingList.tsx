@@ -5,9 +5,10 @@ import { ListProps } from './App';
 export interface ItemViewProps {
   item: ItemProps;
   onDeleteItem: (id: number) => void;
+  onToggleItem: (id: number) => void;
 }
 
-const PackingList: React.FC<ListProps> = ({ items, onDeleteItem }) => {
+const PackingList: React.FC<ListProps> = ({ items, onDeleteItem, onToggleItem }) => {
   return (
     <ul className="list">
       {
@@ -16,6 +17,7 @@ const PackingList: React.FC<ListProps> = ({ items, onDeleteItem }) => {
             key={item.id}
             item={item}
             onDeleteItem={onDeleteItem}
+            onToggleItem={onToggleItem}
           />
           )
         )
@@ -25,9 +27,14 @@ const PackingList: React.FC<ListProps> = ({ items, onDeleteItem }) => {
 }
 
 const Item: React.FC<ItemViewProps> =
-  ({item, onDeleteItem}) => {
+  ({item, onDeleteItem, onToggleItem}) => {
   return (
     <li>
+      <input
+        type="checkbox"
+        checked={item.packed}
+        onChange={() => onToggleItem(item.id)}
+      />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
