@@ -13,6 +13,7 @@ export interface ListProps {
   items: ItemProps[];
   onDeleteItem: (id: number) => void;
   onToggleItem: (id: number) => void;
+  onClearList: () => void;
 }
 
 export interface StatsProps {
@@ -35,11 +36,23 @@ function App() {
       item.id === id ? {...item, packed: !item.packed } : item))
   }
 
+  const onClearList = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete all items?"
+    )
+    if (confirmed) setItems([]);
+  }
+
   return (
     <div className="app">
       <Logo />
       <Form onAddItems={onAddItems} />
-      <PackingList items={items} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} />
+      <PackingList
+        items={items}
+        onDeleteItem={onDeleteItem}
+        onToggleItem={onToggleItem}
+        onClearList={onClearList}
+      />
       <Stats items={items} />
     </div>
   );
